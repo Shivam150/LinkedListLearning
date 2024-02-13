@@ -53,28 +53,73 @@ bool detectLoop(Node* head){
 
 // Using Floyd's Detection Algorithm
 
-bool floydCycleDetectionAlgo(Node* head){
+Node* floydCycleDetectionAlgo(Node* head){
 	if(head == NULL && head->next == NULL)
 	{
-		return false;
+		return NULL;
 	}
 	
 	Node* slow = head;
-	Node* fast = head->next;
+	Node* fast = head;
 	
-	while(slow != fast){
-		if(fast == NULL || fast->next == NULL){
-			return false;
+	while(slow != NULL && fast != NULL){
+		fast = fast->next;
+		if(fast != NULL)
+		{
+			fast = fast->next;
 		}
 		slow = slow->next;
-		fast = fast->next->next;
+		
+		if(slow == fast)
+		{
+			return slow;
+		}
 	}
 	
+	return 0;
+}
+
+
+Node* getStartNodeOfLoop(Node* head)
+{
+	if(head == NULL){
+		return NULL;
+	}
 	
-	cout<<"Node data: "<< slow->data<<endl;
-	return true;
+	Node* intersection = floydCycleDetectionAlgo(head);
+	if(intersection == NULL){
+		return NULL;
+	}
+//	cout<<"Intersection Point: "<<intersection->data<<endl;
+	Node* slow = head;
 	
+	while(slow != intersection){
+		slow = slow->next;
+		intersection = intersection->next;
+	}
 	
+	return slow;
+}
+
+void removeStartNodeOfLoop(Node* head){
+	if(head == NULL)
+	{
+		return;
+	}
+	
+	//get start node
+	Node* startNodeOfLoop = getStartNodeOfLoop(head);
+	if(startNodeOfLoop == NULL){
+		return NULL;
+	}
+	Node* temp = startNodeOfLoop;
+	
+	while(temp->next != startNodeOfLoop){
+		temp = temp->next;
+	}
+	
+	cout<<"Node which is made NULL: "<<temp->data<<endl;
+	temp->next = NULL;
 }
 
 
@@ -89,12 +134,17 @@ int main(){
 	node2->next = node3;
 	node3->next = node4;
 	node4->next = node5;
-	node5->next = node3;
+	node5->next = node2;
 	Node* head = node1;
+	
+	removeStartNodeOfLoop(head);
 	
 	if(floydCycleDetectionAlgo(head)){
 		cout<<"Loop is present in the Linked List"<<endl;
 	}else{
 		cout<<"Loop is not present in the Linked List"<<endl;
 	}
+	
+//	Node* loop = getStartNodeOfLoop(head);
+//	cout<<"Start Node of Loop Or Loop starts at: "<<loop->data<<endl;
 }

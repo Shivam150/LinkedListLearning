@@ -50,6 +50,19 @@ void print(Node* head){
 	Node* prev = NULL;
 	Node* curr = head;
 	
+	
+	Node* temp = head;
+	int count = 0;
+    while (temp != NULL && count < k) {
+        temp = temp->next;
+        count++;
+    }
+
+    if (count < k) {
+        // If the remaining nodes are less than k, no need to reverse
+        return head;
+    }
+	
 	while(curr != NULL && cnt < k){
 		Next = curr->next;
 		curr->next = prev;
@@ -73,19 +86,19 @@ void print(Node* head){
 int main()
 {
 	
-	Node* node1 = new Node(10);
-	Node* node2 = new Node(20);
-	Node* node3 = new Node(30);
-//	Node* node4 = new Node(40);
-//	Node* node5 = new Node(50);
+	Node* node1 = new Node(1);
+	Node* node2 = new Node(2);
+	Node* node3 = new Node(3);
+	Node* node4 = new Node(4);
+	Node* node5 = new Node(5);
 	node1->next = node2;
 	node2->next = node3;
-	node3->next = NULL;
-//	node4->next = node5;
-//	node5->next = NULL;
+	node3->next = node4;
+	node4->next = node5;
+	node5->next = NULL;
 	Node* head = node1;
 	print(head);
-	Node* h = KReverseLL(head,4);
+	Node* h = KReverseLL(head,3);
 	print(h);
 	
 }
