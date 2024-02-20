@@ -25,35 +25,56 @@ class Node{
 
 // Remove Duplicates from soretd Linked List
 
-Node* removeDuplicateFromSortedLL(Node* &head){
+Node* removeDuplicateFromSortedLL(Node* head){
+	
 	if(head == NULL){
-		return NULL;
+		cout << "List is empty." << endl;
+		return head;
 	}
 	
 	Node* curr = head;
 	
-	while(curr != NULL){
-		if( (curr->next != NULL) && curr->data == curr->next->data)
+	cout<<"Hello curr ka data:"<<curr->data<<endl;
+	cout<<"Hello curr ke next ka data:"<<curr->next->data<<endl;
+	
+	while(curr->next != NULL){
+		
+//		cout<<"Helloooo:"<<endl;
+		if(curr->data == curr->next->data)
 		{
 			Node* next_next = curr->next->next; //Store location to point deleted to next
-			Node* nodeTodelete =curr->next;     // store node to delete 
-			delete(nodeTodelete);              // delete first then point because if we point fist then we lost this node( we can not delete it).
+			Node* nodeToDelete = curr->next;     // store node to delete 
+			delete(nodeToDelete);              // delete first then point because if we point fist then we lost this node( we can not delete it).
 			curr->next = next_next;            // point to deleted to next
-			
+			cout<<"Hello Inside While If: "<<endl;
 		}
-		else{
+//		else{
 			curr = curr->next;
-		}	
+//		}	
 	}
 	
+	cout<<"Hello before return head: "<<head->data<<endl;
 	return head;
 }
 
-void print(Node* &head){
-	Node* temp = head;
-	while(temp != NULL){
-		cout<<temp->data<<" ";
-		temp = temp->next;
+
+void removeDuplicates(Node* head)
+{
+    map<int, bool> track;
+    Node* temp = head;
+    while (temp) {
+        if (track.find(temp->data) == track.end()) {
+            cout << temp->data << " ";
+        }
+        track[temp->data] = true;
+        temp = temp->next;
+    }
+}
+
+void print(Node* head){
+	while(head != NULL){
+		cout<<head->data<<" ";
+		head = head->next;
 	}
 	
 	cout<<endl;
@@ -62,10 +83,10 @@ void print(Node* &head){
 
 int main(){
 	Node* node1 = new Node(10);
-	Node* node2 = new Node(10);
+	Node* node2 = new Node(20);
 	Node* node3 = new Node(20);
-	Node* node4 = new Node(20);
-	Node* node5 = new Node(30);
+	Node* node4 = new Node(40);
+	Node* node5 = new Node(50);
 	node1->next = node2;
 	node2->next = node3;
 	node3->next = node4;
@@ -78,9 +99,9 @@ int main(){
 	
 	
 	cout<<"List After Operation: "<<endl;
-	Node* headOfNew = removeDuplicateFromSortedLL(head);
+	head = removeDuplicateFromSortedLL(head);
+//    removeDuplicates(head);
+	print(head);
 	
-	cout<<"headOfNewList===:"<<headOfNew->data<<endl;
-	
-	print(headOfNew);
+	return 0;
 }
