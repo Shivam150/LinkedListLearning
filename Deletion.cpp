@@ -44,7 +44,7 @@ void deleteNode(Node* &head , int position){
 	}
 	else{
 		Node* curr = head;
-		Node*prev = NULL;
+		Node* prev = NULL;
 		int cnt = 1;
 		while(cnt < position){
 			prev = curr;
